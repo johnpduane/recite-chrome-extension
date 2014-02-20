@@ -1,4 +1,4 @@
 recite-chrome-extension
 =======================
 
-Chrome extension for Recite, see http://recite.io/
+Chrome extension for Recite, see https://recite.io/
