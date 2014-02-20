@@ -1,0 +1,58 @@
+<!doctype html>
+<html ng-app="ReciteChromeExtension" ng-csp>
+    <head>
+        <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="bower_components/angular/angular-csp.css" rel="stylesheet">
+        <link href="styles/main.css" rel="stylesheet">
+
+        <script src="bower_components/angular/angular.min.js"></script>
+        <!-- build:js scripts/popup.js -->
+        <script src="scripts/app.js"></script>
+        <script src="scripts/model.js"></script>
+        <script src="scripts/popup.js"></script>
+        <!-- endbuild -->
+    </head>
+
+    <body id="popup" ng-controller="PopUpCtrl">
+
+        <header>
+            <h1 ng-show="!isAuthenticated && isReady"><strong>RE</strong>CITE</h1>
+        </header>
+
+        <form role="form" ng-submit="login()" ng-show="!isAuthenticated && isReady">
+            <div class="input-group">
+                <input id="username" type="text" class="form-control" autocapitalize="off" placeholder="User Name" ng-model="userName" autofocus>
+            </div>
+            <div class="input-group password">
+                <input id="password" type="password" class="form-control" placeholder="Password" ng-model="password">
+            </div>
+            <div class="input-group">
+                <div class="alert alert-danger" ng-show="errorMsg != ''">{{errorMsg}}</div>
+                <input type="submit" class="btn btn-primary" value="Login" />
+            </div>
+        </form>
+
+        <div class="recite" ng-show="isAuthenticated && isReady">
+            <div class="recite-ex-header">
+                <a class="logo pull-left" href="{{reciteDomain}}dashboard" target="_blank"><strong>RE</strong>CITE</a>
+                <span class="username badge">{{userName}}</span>
+                <button type="button" class="pull-right btn btn-primary btn-xs" ng-click="logout()">Sign Out</button>
+            </div>
+            <div class="recite-ex-subheader">
+                <span class="count pull-left">{{images.length}} capture<span ng-hide="images.length==1">s</span></span>
+                <span>&nbsp;</span>
+                <button type="button" class="pull-right btn btn-primary btn-xs" ng-click="capture()">Capture Now!</button>
+            </div>
+            <div class="alert alert-info" ng-show="collectMsg != ''">
+                <button type="button" class="close" aria-hidden="true" ng-click="collectMsg=''">&times;</button>
+                {{collectMsg}}
+            </div>
+            <ul class="list-group" ng-show="images.length > 0">
+                <li class="list-group-item" ng-repeat="image in images | orderBy:'-created'">
+                    <a href="http://{{image.url_image}}" target="_blank">{{image.created | date:'EEE, MM/dd/yy h:mm a'}}</a>
+                </li>
+            </ul>
+        </div>
+
+    </body>
+</html>
