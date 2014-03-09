@@ -6,6 +6,8 @@
         <link href="styles/main.css" rel="stylesheet">
 
         <script src="bower_components/angular/angular.min.js"></script>
+        <script src="bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
         <!-- build:js scripts/popup.js -->
         <script src="scripts/app.js"></script>
         <script src="scripts/model.js"></script>
@@ -41,11 +43,27 @@
             <div class="recite-ex-subheader">
                 <span class="count pull-left">{{images.length}} capture<span ng-hide="images.length==1">s</span></span>
                 <span>&nbsp;</span>
-                <button type="button" class="pull-right btn btn-primary btn-xs" ng-click="capture()">Capture Now!</button>
-            </div>
-            <div class="alert alert-info" ng-show="collectMsg != ''">
-                <button type="button" class="close" aria-hidden="true" ng-click="collectMsg=''">&times;</button>
-                {{collectMsg}}
+
+                <div class="btn-group pull-right">
+                    <button class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+                        Capture Now <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li>
+                            <a ng-href="{{reciteDomain}}definitionEdit/new/{{picType}}?url={{currentUrl}}" target="_blank">
+                                Capture to new recital
+                            </a>
+                        </li>
+                        <li role="presentation" class="divider"></li>
+                        <li role="presentation" class="dropdown-header">Or add to an existing recital:</li>
+                        <li ng-repeat="recital in recitals">
+                            <a ng-href="{{reciteDomain}}definitionEdit/{{recital._id}}?url={{currentUrl}}" target="_blank">
+                                {{recital.name}}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
             </div>
             <ul class="list-group" ng-show="images.length > 0">
                 <li class="list-group-item" ng-repeat="image in images | orderBy:'-created'">

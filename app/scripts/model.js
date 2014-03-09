@@ -22,6 +22,30 @@ reciteEx.service('reciteService', function($http) {
             })
     };
 
+    this.getTypes = function(callback) {
+        $http.get(
+                reciteDomain + 'deltatypes'
+            ).
+            success(function(data, status) {
+                callback(data, status);
+            }).
+            error(function(data, status) {
+                callback(data, status);
+            })
+    };
+
+    this.getRecitals = function(callback) {
+        $http.get(
+                reciteDomain + 'deltadefinitions'
+            ).
+            success(function(data, status) {
+                callback(data, status);
+            }).
+            error(function(data, status) {
+                callback(data, status);
+            })
+    };
+
     this.getAuthenticationStatus = function(callback) {
         $http.get(
                 reciteDomain + 'isAuthenticated'

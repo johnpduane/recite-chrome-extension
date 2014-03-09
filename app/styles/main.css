@@ -76,6 +76,10 @@ form {
     margin-top: 4px;
 }
 
+.recite-ex-subheader .btn-group {
+    text-align: left;
+}
+
 /* CAPTURE LIST -----------------------*/
 .list-group-item {
     background-color: #666;

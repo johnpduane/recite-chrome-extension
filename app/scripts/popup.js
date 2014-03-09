@@ -5,8 +5,8 @@ reciteEx.controller("PopUpCtrl", function ($scope, reciteService) {
     $scope.isAuthenticated = false;
     $scope.userName = "";
     $scope.errorMsg = "";
-    $scope.collectMsg = "";
     $scope.reciteDomain = "https://recite.io/";
+//    $scope.reciteDomain = "https://localhost:3001/";
 
     checkAuthenticated();
 
@@ -18,11 +18,31 @@ reciteEx.controller("PopUpCtrl", function ($scope, reciteService) {
                 reciteService.getInfo($scope.currentUrl, "", function(data, status) {
                     $scope.message = status;
                     $scope.images = data;
+                    $scope.currentUrl = encodeURIComponent($scope.currentUrl); //encode for Capture Now feature
                 });
             }
             else {
                 $scope.message = "Error, can't find current tab.";
             }
+        });
+    }
+
+    function getPicType() {
+        $scope.picType = "528575e9b77423fd017cf53d"; //PROD value; default to this
+        reciteService.getTypes(function(data, status) {
+            if (status === 200 && data && data.length > 0) {
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].code === 'pic') {
+                        $scope.picType = data[i]._id;
+                    }
+                }
+            }
+        });
+    }
+
+    function getRecitals() {
+        reciteService.getRecitals(function(data, status) {
+            $scope.recitals = data;
         });
     }
 
@@ -34,6 +54,8 @@ reciteEx.controller("PopUpCtrl", function ($scope, reciteService) {
                 $scope.isAuthenticated = true;
                 $scope.userName = data.username;
                 getResults();
+                getRecitals();
+                getPicType();
             }
             $scope.isReady = true;
         })
@@ -57,9 +79,5 @@ reciteEx.controller("PopUpCtrl", function ($scope, reciteService) {
         $scope.isAuthenticated = false;
         $scope.userName = "";
     };
-
-    $scope.capture = function() {
-        $scope.collectMsg = "Sorry, this feature is not available yet.  I should have labeled the button, 'Capture Later!'";
-    }
 
 });
