@@ -80,6 +80,10 @@ form {
     text-align: left;
 }
 
+.recite-ex-subheader .dropdown-menu {
+    max-width: 250px;
+}
+
 /* CAPTURE LIST -----------------------*/
 .list-group-item {
     background-color: #666;
